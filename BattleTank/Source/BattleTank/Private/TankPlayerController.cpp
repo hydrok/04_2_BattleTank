@@ -62,11 +62,29 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation) cons
 	//find crosshair position, pixel coordinates
 	int32 ViewportSizeX, ViewportSizeY; //size of the current viewport
 	GetViewportSize(ViewportSizeX, ViewportSizeY); //gets the size of the viewport and is DYNAMIC
-	auto Screenlocation = FVector2D(CrossHairXLocation * ViewportSizeX, CrossHairYLocation * ViewportSizeY);
+	auto ScreenLocation = FVector2D(CrossHairXLocation * ViewportSizeX, CrossHairYLocation * ViewportSizeY);
 		//gives the actual pixel location of the crosshair
-	UE_LOG(LogTemp, Warning, TEXT("Screen Location of crosshair: %s"), *Screenlocation.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Screen Location of crosshair: %s"), *ScreenLocation.ToString());
 
 	//deproject crosshair to 3d space or world, with direction
+	FVector LookDirection;
+	if (GetLookDirection(ScreenLocation, LookDirection))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player camera is pointed at: %s"), *LookDirection.ToString());
+	}
+
 	//line trace through the crosshair in the direction of deprojection
 	return true; //initialization for testing
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const
+{
+	//deproject crosshair to 3d space or world, with direction
+	FVector CameraWorldLocation; // have to create these variables, needed for the deproject function
+	return DeprojectScreenPositionToWorld(
+		ScreenLocation.X, //Screenlocation is a FVector2D, so it returns multiple things
+		ScreenLocation.Y, //Screenlocation is a FVector2D, so it returns multiple things
+		CameraWorldLocation, //we apparently don't care about this atm
+		LookDirection); //this is a reference. seems to be relevant when "delegated" to a function.
+		//I guess we don't have to define the signature or function of this one. probably because it's already part of Unreal. It is a boolean.
 }
