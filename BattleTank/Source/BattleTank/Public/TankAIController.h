@@ -15,12 +15,13 @@ class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 	
-public:
+private:
 	ATank* GetAIControlledTank() const; //this is a "getter". Get value pointed to by GetAIControlledTank() of type ATank.
 
 	virtual void BeginPlay() override; //this checks to make sure that BeginPlay exists somehwere up the hierarchy of classes.
 	//in this case it is the AActor that has it. The virtual is defined in AActor as well, and it allows any child to extend the
 	//functionality of BeginPlay()
 	
-	
+	ATank *GetPlayerTank() const; // this is a pointer to the player tank, the AI needs to recognize the playercontrolled tank.
+	//return the value pointed to by GetPlayerTank of type ATank.
 };

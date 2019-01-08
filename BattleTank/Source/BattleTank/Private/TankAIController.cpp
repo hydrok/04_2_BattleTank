@@ -6,6 +6,7 @@ void ATankAIController::BeginPlay() //virtual and void are removed here because 
 {
 	Super::BeginPlay(); //call default behaviour before anything else.
 	UE_LOG(LogTemp, Warning, TEXT("TankAIController has initialized")); //this is a logout message useful for debugging.
+
 	auto AIControlledTank = GetAIControlledTank(); //variable created for logging and debugging purposes, is the function finding a tank?
 	if (!AIControlledTank) //if nothing returned from ControlledTank function
 	{
@@ -16,6 +17,16 @@ void ATankAIController::BeginPlay() //virtual and void are removed here because 
 		UE_LOG(LogTemp, Warning, TEXT("TankAIController is possessing %s"), *(AIControlledTank->GetName())); //log the tank that is possessed.
 		// the *AIControlledTank->GetName() means call the GetName function (which comes from a parent class) from the actior that was retruned
 		//from the AIControlledTank = GetAIControlledTank() which is also Cast<ATank>(GetAIControlledTank())
+	}
+
+	auto PlayerTank = GetPlayerTank();
+	if (!PlayerTank) //if nothing returned from GetPlayerTank function
+	{
+		UE_LOG(LogTemp, Warning, TEXT("TankAIController has not found a player")); //make a log.
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("TankAIController has found a player possessing %s"), *(PlayerTank->GetName())); //log the tank that is possessed.
 	}
 
 }
@@ -29,4 +40,18 @@ ATank* ATankAIController::GetAIControlledTank() const
 
 }
 
-
+ATank * ATankAIController::GetPlayerTank() const
+{
+	//get the tank possessed by the player and log out the unique pawn name.
+	auto PlayerControlledTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (!PlayerControlledTank)
+	{
+		return nullptr; //if no pointer is returned, return nullptr
+	}
+	else
+	{
+		return Cast<ATank>(PlayerControlledTank); //cast PlayerControlledTank function to ATank, but only if a player controlled tank was found.
+		//syntax could probably also look like this:
+		// return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	}
+}
