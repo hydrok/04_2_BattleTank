@@ -23,8 +23,7 @@ void ATankPlayerController::BeginPlay() //virtual and void are removed here beca
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("Tick Tock")); //log the tick.
-
+	//UE_LOG(LogTemp, Warning, TEXT("Tick Tock")); //log the tick. this has been commented out for ease of debugging
 	AimTowardsCrosshair(); //this is the function to deproject the reticule to the world space and return vital information needed for aiming
 	//and visual feedback (like the turrent and barrel moving towards the world coordinates of the reticule
 }
@@ -45,8 +44,20 @@ void ATankPlayerController::AimTowardsCrosshair()
 	}
 	else
 	{
-		//get world location of linetrace through crosshair
-		//if it hits landscape
+		FVector OutHitLocation; //Out parameter, this is a FVector type variable
+		if (GetSightRayHitLocation(OutHitLocation)) //this will eventually ray-trace as well, which we neeeeeeeed
+		{		
+			UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *OutHitLocation.ToString()); //The OutHitLocation.ToString() is just like other variables
+			//get world location of linetrace through crosshair
+			//if it hits landscape
 			//tell the player controlled tank to aim toward that point
+		}
 	}
+}
+//this function is a boolean but it will also get world location of linetrace through crosshair
+//will be true if it hits landscape.
+bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation) const
+{
+	OutHitLocation = FVector(1.0); //initialization for testing
+	return true; //initialization for testing
 }
