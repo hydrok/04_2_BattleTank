@@ -35,4 +35,10 @@ private:
 		//the function, the address of the variable is passed and the value is read from the address see the cpp for implementation.
 		//so you can pass a variable and the function will automatically know its an address and the value will always be changed at that address.
 		//if you pass just a variable, a copy is made and changes to values are made only in the copy variable, not the original.
+		//in the cpp, we make a variable called OutHitLocation and then change the value in another function.
+	UPROPERTY(EditAnywhere)
+	float CrossHairXLocation = 0.5; //0.5 because the crosshair is halfway across the screen
+	UPROPERTY(EditAnywhere)
+	float CrossHairYLocation = 0.33333; //0.3 because the crosshair is 1/3 down the screen
+
 };
