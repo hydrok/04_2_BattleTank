@@ -17,7 +17,16 @@ void ATankPlayerController::BeginPlay() //virtual and void are removed here beca
 		// the *ControlledTank->GetName() means call the GetName function (which comes from a parent class) from the actior that was retruned
 		//from the ControlledTank = GetControlledTank() which is also Cast<ATank>(GetPawn())
 	}
+}
 
+// Called every frame
+void ATankPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	UE_LOG(LogTemp, Warning, TEXT("Tick Tock")); //log the tick.
+
+	AimTowardsCrosshair(); //this is the function to deproject the reticule to the world space and return vital information needed for aiming
+	//and visual feedback (like the turrent and barrel moving towards the world coordinates of the reticule
 }
 
 ATank* ATankPlayerController::GetControlledTank() const 
@@ -26,5 +35,18 @@ ATank* ATankPlayerController::GetControlledTank() const
 {
 	//The TankPlayerController needs to know what tank it is controlling.
 	return Cast<ATank>(GetPawn()); //this CAST syntax asks to run GetPawn() from ATank...I think...
+}
 
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	if (!GetControlledTank())
+	{
+		return;
+	}
+	else
+	{
+		//get world location of linetrace through crosshair
+		//if it hits landscape
+			//tell the player controlled tank to aim toward that point
+	}
 }
