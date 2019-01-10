@@ -14,6 +14,9 @@ UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
+
+public:
+	virtual void Tick(float DeltaTime) override;
 	
 private:
 	ATank* GetAIControlledTank() const; //this is a "getter". Get value pointed to by GetAIControlledTank() of type ATank.
@@ -24,4 +27,6 @@ private:
 	
 	ATank *GetPlayerTank() const; // this is a pointer to the player tank, the AI needs to recognize the playercontrolled tank.
 	//return the value pointed to by GetPlayerTank of type ATank.
+
+	void AimTowardsPlayer();
 };

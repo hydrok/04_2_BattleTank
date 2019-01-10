@@ -32,3 +32,8 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void ATank::AimAt(FVector OutHitLocation)
+{
+	auto OurTankName = GetName(); //gets name of tank.
+	UE_LOG(LogTemp, Warning, TEXT("%s is AimAt %s"),*OurTankName, *OutHitLocation.ToString()); //The OutHitLocation.ToString() is just like other variables
+}

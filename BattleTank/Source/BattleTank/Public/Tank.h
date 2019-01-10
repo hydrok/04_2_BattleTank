@@ -15,6 +15,8 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	void AimAt(FVector OutHitLocation); //the aim functionality, used by both the PlayerController and the AIController
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -47,7 +47,8 @@ void ATankPlayerController::AimTowardsCrosshair()
 		FVector OutHitLocation; //Out parameter, this is a FVector type variable
 		if (GetSightRayHitLocation(OutHitLocation)) //this will eventually ray-trace as well, which we neeeeeeeed
 		{		
-			UE_LOG(LogTemp, Warning, TEXT("OutHitLocation is: %s"), *OutHitLocation.ToString()); //The OutHitLocation.ToString() is just like other variables
+			GetControlledTank()->AimAt(OutHitLocation); //pass from TankPlayerController to the Tank. The AimAt part is the signal.
+				//Call AimAt from the controled tank
 			//get world location of linetrace through crosshair
 			//if it hits landscape
 			//tell the player controlled tank to aim toward that point

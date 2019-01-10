@@ -31,6 +31,25 @@ void ATankAIController::BeginPlay() //virtual and void are removed here because 
 
 }
 
+void ATankAIController::Tick(float DeltaTime) //standard tick
+{
+	Super::Tick(DeltaTime);
+	AimTowardsPlayer(); //aim towards player, if one exists, see function
+}
+
+void ATankAIController::AimTowardsPlayer()
+{
+	if (!GetPlayerTank()) //only activate aiming routine if a player exists
+	{
+		return;
+	}
+	else
+	{
+		GetAIControlledTank()->AimAt(GetPlayerTank()->GetActorLocation()); 
+		//call the AimAt functionality from the Tank, and have it at aim at the Player Location
+	}
+}
+
 ATank* ATankAIController::GetAIControlledTank() const
 //this is a "getter". Get value pointed to by GetControlledTank() of type ATank.
 // the ATankAIController:: part makes the reference specificically from ATankAIController.h, I think...
