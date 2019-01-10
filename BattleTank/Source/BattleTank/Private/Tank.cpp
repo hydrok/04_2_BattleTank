@@ -6,9 +6,11 @@
 // Sets default values
 ATank::ATank()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
+	//this is creating a sub-object from UTankAimingComponent, it needs an FName. this adds an AimingComponent to the Tank_BP windows in UE4
+	//The Tank_BP inherits the AimingComponent.
 }
 
 // Called when the game starts or when spawned
@@ -34,6 +36,5 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector OutHitLocation)
 {
-	auto OurTankName = GetName(); //gets name of tank.
-	UE_LOG(LogTemp, Warning, TEXT("%s is AimAt %s"),*OurTankName, *OutHitLocation.ToString()); //The OutHitLocation.ToString() is just like other variables
+	TankAimingComponent->AimAt(OutHitLocation); //remember that this is a pointer,
 }

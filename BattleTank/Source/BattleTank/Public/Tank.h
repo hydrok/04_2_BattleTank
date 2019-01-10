@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "TankAimingComponent.h" //we are delegating aiming to this.
 #include "Tank.generated.h"
 
 UCLASS()
@@ -20,6 +21,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UTankAimingComponent *TankAimingComponent = nullptr; //a pointer to UTankAimingComponent called TankAiming Component
+
 
 public:	
 	// Called every frame
