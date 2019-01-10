@@ -42,4 +42,7 @@ private:
 	float CrossHairYLocation = 0.33333; //0.3 because the crosshair is 1/3 down the screen
 
 	bool GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const;
+	bool GetLookVectorHitLocation(FVector &OutHitLocation, FVector LookDirection) const;
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 1000000;
 };

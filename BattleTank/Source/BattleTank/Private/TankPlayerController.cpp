@@ -47,7 +47,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 		FVector OutHitLocation; //Out parameter, this is a FVector type variable
 		if (GetSightRayHitLocation(OutHitLocation)) //this will eventually ray-trace as well, which we neeeeeeeed
 		{		
-			UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *OutHitLocation.ToString()); //The OutHitLocation.ToString() is just like other variables
+			UE_LOG(LogTemp, Warning, TEXT("OutHitLocation is: %s"), *OutHitLocation.ToString()); //The OutHitLocation.ToString() is just like other variables
 			//get world location of linetrace through crosshair
 			//if it hits landscape
 			//tell the player controlled tank to aim toward that point
@@ -58,7 +58,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 //will be true if it hits landscape.
 bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation) const
 {
-	OutHitLocation = FVector(1.0); //initialization for testing
 	//find crosshair position, pixel coordinates
 	int32 ViewportSizeX, ViewportSizeY; //size of the current viewport
 	GetViewportSize(ViewportSizeX, ViewportSizeY); //gets the size of the viewport and is DYNAMIC
@@ -70,10 +69,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation) cons
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player camera is pointed at: %s"), *LookDirection.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("Player camera LookDirection is pointed at: %s"), *LookDirection.ToString());
+		//line trace through the crosshair in the direction of deprojection, called LookDirection
+		GetLookVectorHitLocation(OutHitLocation, LookDirection);
 	}
-
-	//line trace through the crosshair in the direction of deprojection
 	return true; //initialization for testing
 }
 
@@ -87,4 +86,29 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &
 		CameraWorldLocation, //we apparently don't care about this atm
 		LookDirection); //this is a reference. seems to be relevant when "delegated" to a function.
 		//I guess we don't have to define the signature or function of this one. probably because it's already part of Unreal. It is a boolean.
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector &OutHitLocation, FVector LookDirection) const
+{
+	FHitResult HitResult; //this will be the variable that stores the FHitResult from LineTraceSingleByChannel
+	auto StartLocation = PlayerCameraManager->GetCameraLocation(); //variable storing location of player camera
+	auto EndLocation = StartLocation + (LookDirection * LineTraceRange); //interpretted as starting at a location, getting a direction
+			//and multiplying the direction by the LineTraceRange defined in the header.
+	if(GetWorld()->LineTraceSingleByChannel( //since all the parameters have been DEFINED, we don't need "relative" code here,
+			//so GetWorld can be used.
+		HitResult, //defined above
+		StartLocation, //defined above
+		EndLocation, //defined above, this is the only one which uses a variable from another function
+		ECollisionChannel::ECC_Visibility)
+	)
+	{
+		OutHitLocation = HitResult.Location; //this converts the FHitResult to a vector which will be used for &OutHitLocation
+			//set OutHitLocation to that vector result so it prints properly in the log.
+		return true;
+	}
+	else 
+	{ 
+		OutHitLocation = FVector(0);
+		return false; 
+	}
 }
