@@ -23,7 +23,6 @@ void UTankAimingComponent::BeginPlay()
 	
 }
 
-
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -34,6 +33,12 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 void UTankAimingComponent::AimAt(FVector OutHitLocation)
 {
 	auto OurTankName = GetOwner()->GetName(); //gets object name of the owner class (tank in this case)
-	UE_LOG(LogTemp, Warning, TEXT("%s is AimAt %s"), *OurTankName, *OutHitLocation.ToString()); //The OutHitLocation.ToString() is just like other variables
+	auto BarrelLocation = Barrel->GetComponentLocation();
+	UE_LOG(LogTemp, Warning, TEXT("%s is AimAt %s from location of Barrel: %s"), *OurTankName, *OutHitLocation.ToString(), *BarrelLocation.ToString()); //The OutHitLocation.ToString() is just like other variables
 		//it seems that whenever the AimAt is called that the OutHitLocation is populated in that AimAt call, then reported here.
+}
+
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent *BarrelToSet)
+{
+	Barrel = BarrelToSet; //AKA the barrel to set is the barrel.
 }

@@ -38,3 +38,10 @@ void ATank::AimAt(FVector OutHitLocation)
 {
 	TankAimingComponent->AimAt(OutHitLocation); //remember that this is a pointer,
 }
+
+void ATank::SetBarrelReference(UStaticMeshComponent *BarrelToSet)
+{
+	TankAimingComponent->SetBarrelReference(BarrelToSet); //This was defined in the TankAimingComponent. This line delgates the 
+			//set barrel reference (barrel to set) to the AimingComponent
+			//check the event graph of the Tank_BP to see that the references exist there and the relationship that was made.
+}

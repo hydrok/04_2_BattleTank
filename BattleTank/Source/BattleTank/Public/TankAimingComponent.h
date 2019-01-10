@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/StaticMeshComponent.h" //had to add this for the barrel location.
 #include "TankAimingComponent.generated.h"
 
 
@@ -25,5 +26,10 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void AimAt(FVector OutHitLocation);
+	
+	void SetBarrelReference(UStaticMeshComponent *BarrelToSet); //this is a setter. A pointer to static mesh component
+
+private:
+	UStaticMeshComponent *Barrel = nullptr; //this is a pointer to the barrel meshcomponent of the Tank_BP
 	
 };

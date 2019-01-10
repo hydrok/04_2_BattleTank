@@ -18,6 +18,9 @@ public:
 
 	void AimAt(FVector OutHitLocation); //the aim functionality, used by both the PlayerController and the AIController
 
+	UFUNCTION(BlueprintCallable, Category=Setup)
+	void SetBarrelReference(UStaticMeshComponent *BarrelToSet); //this is going to make a method that we can call from blueprint.
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
