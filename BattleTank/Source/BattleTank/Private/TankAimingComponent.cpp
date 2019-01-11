@@ -88,5 +88,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *AimAsRotator.ToString()); //The OutHitLocation.ToString() is just like other variables
 	auto DeltaRotator = AimAsRotator - BarrelRotator; //this calculates the difference between what we need and what we have
 
-	Barrel->ElevateBarrel(5);
+	Barrel->ElevateBarrel(DeltaRotator.Pitch); //call ElevatePitch from TankBarrel. It will set relative barrel rotation
+		//and it will feed DelatRotator as the RelativeSpeed, which will be clamped to be -1 and 1
+		//this is a way to pass positive or negative value based on degree rotation.
 }
