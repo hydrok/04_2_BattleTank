@@ -17,6 +17,7 @@ public:
 	ATank();
 
 	void AimAt(FVector OutHitLocation); //the aim functionality, used by both the PlayerController and the AIController
+		//does not require LaunchSpeed
 
 	UFUNCTION(BlueprintCallable, Category=Setup)
 	void SetBarrelReference(UStaticMeshComponent *BarrelToSet); //this is going to make a method that we can call from blueprint.
@@ -34,6 +35,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+	UPROPERTY(EditAnywhere, Category = Firing) //creating a launch speed float variable that appears in the UE4 editor
+		float LaunchSpeed = 100000; // it has been set up to be overwritable in blueprint.
 	
 };

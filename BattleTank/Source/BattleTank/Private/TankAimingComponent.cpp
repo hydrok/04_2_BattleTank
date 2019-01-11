@@ -30,11 +30,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 }
 
-void UTankAimingComponent::AimAt(FVector OutHitLocation)
+void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //has LaunchSpeed.
 {
 	auto OurTankName = GetOwner()->GetName(); //gets object name of the owner class (tank in this case)
 	auto BarrelLocation = Barrel->GetComponentLocation();
-	UE_LOG(LogTemp, Warning, TEXT("%s is AimAt %s from location of Barrel: %s"), *OurTankName, *OutHitLocation.ToString(), *BarrelLocation.ToString()); //The OutHitLocation.ToString() is just like other variables
+	UE_LOG(LogTemp, Warning, TEXT("%s is AimAt %s from location of Barrel: %s with LaunchSpeed %f"), *OurTankName, *OutHitLocation.ToString(), *BarrelLocation.ToString(), LaunchSpeed); //The OutHitLocation.ToString() is just like other variables
 		//it seems that whenever the AimAt is called that the OutHitLocation is populated in that AimAt call, then reported here.
 }
 

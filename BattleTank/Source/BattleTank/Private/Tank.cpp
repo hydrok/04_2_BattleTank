@@ -36,7 +36,13 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector OutHitLocation)
 {
-	TankAimingComponent->AimAt(OutHitLocation); //remember that this is a pointer,
+	TankAimingComponent->AimAt(OutHitLocation, LaunchSpeed); //remember that this is a pointer. Launchspeed was added ad-hoc
+		//ok this is a mindfuck...
+		//from outside of the tank, its ok to say "just aim at this thing (OutHitLocation)
+		//but from the inside of the tank, there is a notion of LaunchSpeed, and that gets sent to the AimingComponent.
+		//So because we are looking at TankAimingComponent, we have to pass another variable, LaunchSpeed, in order to compile.
+
+
 }
 
 void ATank::SetBarrelReference(UStaticMeshComponent *BarrelToSet)
