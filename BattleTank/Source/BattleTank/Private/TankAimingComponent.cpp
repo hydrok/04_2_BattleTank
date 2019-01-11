@@ -41,29 +41,42 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 	{
 		return;
 	}
-	FVector OutLaunchVelocity; //out parameter
+	FVector OutLaunchVelocity(0); //out parameter
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile")); //this is at the end of the barrel. The socket is created by user in UE4
-
-	if (UGameplayStatics::SuggestProjectileVelocity(   //it seems that when booleans are involved, do an if, since calling them alone is annoying
-			this, //TankAimingComponent is sufficient as a world context...what does that mean?
-			OutLaunchVelocity, //out parameter
-			StartLocation, //location near end of barrel
-			OutHitLocation, //location of tank aim
-			LaunchSpeed, //as defined in tank.h
-			false, //boolean for high arc. true means favour high arc
-			0, //must be a collision radius
-			0, //gravity. 0 means no override
-			ESuggestProjVelocityTraceOption::DoNotTrace //trace or no?
-		)
-	)
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(   //it seems that when booleans are involved, do an if, since calling them alone is annoying
+		this, //TankAimingComponent is sufficient as a world context...what does that mean?
+		OutLaunchVelocity, //out parameter
+		StartLocation, //location near end of barrel
+		OutHitLocation, //location of tank aim
+		LaunchSpeed, //as defined in tank.h
+		false, //boolean for high arc. true means favour high arc
+		0, //must be a collision radius
+		0, //gravity. 0 means no override
+		ESuggestProjVelocityTraceOption::DoNotTrace //trace or no?
+		);
+	if(bHaveAimSolution)
 	{		
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); //this converts the LaunchVelocity Length to the LaunchDirectionLength, a unit vector
 		UE_LOG(LogTemp, Warning, TEXT("%s AimDirection is %s aiming at %s from location of Barrel: %s with LaunchSpeed %f"),  *OurTankName, *AimDirection.ToString(), *OutHitLocation.ToString(), *BarrelLocation.ToString(), LaunchSpeed); //The OutHitLocation.ToString() is just like other variables
+		MoveBarrelTowards(AimDirection);
 	}
 }
 
 void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent *BarrelToSet)
-{
-	
+{	
 	Barrel = BarrelToSet; //AKA the barrel to set is the barrel.
+}
+
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+{
+	//if we have an aim solution
+	//calculate difference between current barrel elevation and Aim Direction
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation(); //rotation is a struct that contains roll pitch yaw.
+		//this is the current roll pitch yaw of the barrel at the moment
+	auto AimAsRotator = AimDirection.Rotation();  //the is the rotation the barrel has to go to.
+	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *AimAsRotator.ToString()); //The OutHitLocation.ToString() is just like other variables
+	auto DeltaRotator = AimAsRotator - BarrelRotator; //this calculates the difference between what we need and what we have
+
+	//rotate turret to aim direction in z for one frame (this frame)
+
 }

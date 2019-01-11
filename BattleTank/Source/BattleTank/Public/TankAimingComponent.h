@@ -30,7 +30,9 @@ public:
 	
 	void SetBarrelReference(UStaticMeshComponent *BarrelToSet); //this is a setter. A pointer to static mesh component
 
+
 private:
 	UStaticMeshComponent *Barrel = nullptr; //this is a pointer to the barrel meshcomponent of the Tank_BP
+	void MoveBarrelTowards(FVector AimDirection);
 	
 };
