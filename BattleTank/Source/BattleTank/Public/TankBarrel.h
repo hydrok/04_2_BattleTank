@@ -15,7 +15,7 @@ class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 	GENERATED_BODY()
 	
 public:
-	void ElevateBarrel(float DegreePerSecond);
+	void ElevateBarrel(float RelativeSpeed); //intent is to make speed between -1 and 1
 	
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)

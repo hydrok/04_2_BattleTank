@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Tank.h"
 #include "TankPlayerController.h"
 
 void ATankPlayerController::BeginPlay() //virtual and void are removed here because they arent needed.
@@ -64,17 +65,21 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation) cons
 	GetViewportSize(ViewportSizeX, ViewportSizeY); //gets the size of the viewport and is DYNAMIC
 	auto ScreenLocation = FVector2D(CrossHairXLocation * ViewportSizeX, CrossHairYLocation * ViewportSizeY);
 		//gives the actual pixel location of the crosshair
-	UE_LOG(LogTemp, Warning, TEXT("Screen Location of crosshair: %s"), *ScreenLocation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Screen Location of crosshair: %s"), *ScreenLocation.ToString());
 
 	//deproject crosshair to 3d space or world, with direction
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player camera LookDirection is pointed at: %s"), *LookDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Player camera LookDirection is pointed at: %s"), *LookDirection.ToString());
 		//line trace through the crosshair in the direction of deprojection, called LookDirection
 		GetLookVectorHitLocation(OutHitLocation, LookDirection);
+		return true;
 	}
-	return true; //initialization for testing
+	else
+	{
+		return false; 
+	}
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const
@@ -95,12 +100,15 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &OutHitLocation, FV
 	auto StartLocation = PlayerCameraManager->GetCameraLocation(); //variable storing location of player camera
 	auto EndLocation = StartLocation + (LookDirection * LineTraceRange); //interpretted as starting at a location, getting a direction
 			//and multiplying the direction by the LineTraceRange defined in the header.
+	FCollisionQueryParams Params; //solution suggested by TA for determining crosshair/target validity
+	Params.AddIgnoredActor(GetPawn());
 	if(GetWorld()->LineTraceSingleByChannel( //since all the parameters have been DEFINED, we don't need "relative" code here,
 			//so GetWorld can be used.
 		HitResult, //defined above
 		StartLocation, //defined above
 		EndLocation, //defined above, this is the only one which uses a variable from another function
-		ECollisionChannel::ECC_Visibility)
+		ECollisionChannel::ECC_Visibility,
+		Params)
 	)
 	{
 		OutHitLocation = HitResult.Location; //this converts the FHitResult to a vector which will be used for &OutHitLocation

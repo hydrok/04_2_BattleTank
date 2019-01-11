@@ -55,11 +55,20 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 		0, //gravity. 0 means no override
 		ESuggestProjVelocityTraceOption::DoNotTrace //trace or no?
 		);
-	if(bHaveAimSolution)
+	if(bHaveAimSolution&&(OutHitLocation!=FVector(0)))
 	{		
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); //this converts the LaunchVelocity Length to the LaunchDirectionLength, a unit vector
-		UE_LOG(LogTemp, Warning, TEXT("%s AimDirection is %s aiming at %s from location of Barrel: %s with LaunchSpeed %f"),  *OurTankName, *AimDirection.ToString(), *OutHitLocation.ToString(), *BarrelLocation.ToString(), LaunchSpeed); //The OutHitLocation.ToString() is just like other variables
+		auto Time = GetWorld()->GetTimeSeconds(); //for timestamps
 		MoveBarrelTowards(AimDirection);
+		//UE_LOG(LogTemp, Warning, TEXT("TIME: %f. %s AimDirection is %s aiming at %s from location of Barrel: %s with LaunchSpeed %f."), 
+			//Time, *OurTankName, *AimDirection.ToString(), *OutHitLocation.ToString(), *BarrelLocation.ToString(), LaunchSpeed); 
+			//The OutHitLocation.ToString() is just like other variables	
+		UE_LOG(LogTemp, Warning, TEXT("TIME: %f. AimSolution Found!"), Time)
+	}
+	else
+	{
+		auto Time = GetWorld()->GetTimeSeconds(); //for timestamps
+		UE_LOG(LogTemp, Warning, TEXT("TIME: %f. No AimSolution found"), Time)
 	}
 }
 
@@ -76,10 +85,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation(); //rotation is a struct that contains roll pitch yaw.
 		//this is the current roll pitch yaw of the barrel at the moment
 	auto AimAsRotator = AimDirection.Rotation();  //the is the rotation the barrel has to go to.
-	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *AimAsRotator.ToString()); //The OutHitLocation.ToString() is just like other variables
+	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *AimAsRotator.ToString()); //The OutHitLocation.ToString() is just like other variables
 	auto DeltaRotator = AimAsRotator - BarrelRotator; //this calculates the difference between what we need and what we have
 
 	Barrel->ElevateBarrel(5);
-
-
 }
