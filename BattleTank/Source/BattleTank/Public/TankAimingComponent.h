@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/StaticMeshComponent.h" //had to add this for the barrel location.
+#include "Kismet/GameplayStatics.h" //for projectile velocity suggestion
 #include "TankAimingComponent.generated.h"
 
 
