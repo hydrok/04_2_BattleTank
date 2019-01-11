@@ -7,6 +7,9 @@
 #include "TankAimingComponent.h" //we are delegating aiming to this.
 #include "Tank.generated.h"
 
+//forward declaration makes the tank aware of the tank barrel class.
+class UTankBarrel;
+
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -20,7 +23,7 @@ public:
 		//does not require LaunchSpeed
 
 	UFUNCTION(BlueprintCallable, Category=Setup)
-	void SetBarrelReference(UStaticMeshComponent *BarrelToSet); //this is going to make a method that we can call from blueprint.
+	void SetBarrelReference(UTankBarrel *BarrelToSet); //this is going to make a method that we can call from blueprint.
 
 protected:
 	// Called when the game starts or when spawned

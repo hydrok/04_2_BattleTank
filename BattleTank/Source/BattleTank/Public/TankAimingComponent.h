@@ -8,6 +8,9 @@
 #include "Kismet/GameplayStatics.h" //for projectile velocity suggestion
 #include "TankAimingComponent.generated.h"
 
+//forward declaration makes the aiming component aware of the tank barrel class.
+class UTankBarrel;
+//Hold barrel properties and Elevate Method
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -28,11 +31,12 @@ public:
 
 	void AimAt(FVector OutHitLocation, float LaunchSpeed);
 	
-	void SetBarrelReference(UStaticMeshComponent *BarrelToSet); //this is a setter. A pointer to static mesh component
+	void SetBarrelReference(UTankBarrel *BarrelToSet); //this is a setter. A pointer to static mesh component
 
 
 private:
-	UStaticMeshComponent *Barrel = nullptr; //this is a pointer to the barrel meshcomponent of the Tank_BP
+	UTankBarrel *Barrel = nullptr; //this is a pointer to the barrel meshcomponent of the Tank_BP
+		//the pointer now points to UTankBarrel, which we just created.
 	void MoveBarrelTowards(FVector AimDirection);
 	
 };

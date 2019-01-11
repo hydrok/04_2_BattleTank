@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "TankBarrel.h" //need to include this so the aiming component is aware of the barrel functions
 #include "TankAimingComponent.h"
 
 
@@ -62,7 +63,8 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 	}
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent *BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel *BarrelToSet) //needs to refer to UTankBarrel, which is a child of Static Mesh
+	//this also needs to be changed in the Tank.h
 {	
 	Barrel = BarrelToSet; //AKA the barrel to set is the barrel.
 }
@@ -77,6 +79,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *AimAsRotator.ToString()); //The OutHitLocation.ToString() is just like other variables
 	auto DeltaRotator = AimAsRotator - BarrelRotator; //this calculates the difference between what we need and what we have
 
-	//rotate turret to aim direction in z for one frame (this frame)
+	Barrel->ElevateBarrel(5);
+
 
 }
