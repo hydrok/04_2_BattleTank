@@ -26,6 +26,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category=Setup)
 	void SetBarrelReference(UTankBarrel *BarrelToSet); //this is going to make a method that we can call from blueprint.
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret *TurretToSet); //this is going to make a method that we can call from blueprint.
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -38,6 +41,6 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = Firing) //creating a launch speed float variable that appears in the UE4 editor
-		float LaunchSpeed = 100000; // it has been set up to be overwritable in blueprint.
+		float LaunchSpeed = 4000; // it has been set up to be overwritable in blueprint.
 	
 };

@@ -1,19 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TankBarrel.h" //need to include this so the aiming component is aware of the barrel functions
 #include "TankAimingComponent.h"
-
+#include "TankBarrel.h" //need to include this so the aiming component is aware of the barrel functions
+#include "TankTurret.h" //need to include this so the aiming component is aware of the turret functions
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false; //changed to false
 
 	// ...
 }
-
 
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
@@ -35,10 +34,11 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 {
 	auto OurTankName = GetOwner()->GetName(); //gets object name of the owner class (tank in this case)
 	auto BarrelLocation = Barrel->GetComponentLocation();
+	auto TurretLocation = Turret->GetComponentLocation();
 	
 		//it seems that whenever the AimAt is called that the OutHitLocation is populated in that AimAt call, then reported here.
 
-	if (!Barrel)
+	if (!Barrel || !Turret)
 	{
 		return;
 	}
@@ -60,6 +60,7 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); //this converts the LaunchVelocity Length to the LaunchDirectionLength, a unit vector
 		auto Time = GetWorld()->GetTimeSeconds(); //for timestamps
 		MoveBarrelTowards(AimDirection);
+		MoveTurretTowards(AimDirection);
 		//UE_LOG(LogTemp, Warning, TEXT("TIME: %f. %s AimDirection is %s aiming at %s from location of Barrel: %s with LaunchSpeed %f."), 
 			//Time, *OurTankName, *AimDirection.ToString(), *OutHitLocation.ToString(), *BarrelLocation.ToString(), LaunchSpeed); 
 			//The OutHitLocation.ToString() is just like other variables	
@@ -75,7 +76,14 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 void UTankAimingComponent::SetBarrelReference(UTankBarrel *BarrelToSet) //needs to refer to UTankBarrel, which is a child of Static Mesh
 	//this also needs to be changed in the Tank.h
 {	
+	if (!BarrelToSet) { return; }
 	Barrel = BarrelToSet; //AKA the barrel to set is the barrel.
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret *TurretToSet)
+{
+	if (!TurretToSet) { return; }
+	Turret = TurretToSet;
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -91,4 +99,12 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Barrel->ElevateBarrel(DeltaRotator.Pitch); //call ElevatePitch from TankBarrel. It will set relative barrel rotation
 		//and it will feed DelatRotator as the RelativeSpeed, which will be clamped to be -1 and 1
 		//this is a way to pass positive or negative value based on degree rotation.
+}
+
+void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
+{
+	auto TurretRotator = Turret->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto TurretDeltaRotator = AimAsRotator - TurretRotator;
+	Turret->RotateTurret(TurretDeltaRotator.Yaw);
 }

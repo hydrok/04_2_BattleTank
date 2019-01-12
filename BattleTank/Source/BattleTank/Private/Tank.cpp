@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TankAimingComponent.h" //we are delegating aiming to this.
 #include "Tank.h"
+#include "TankAimingComponent.h" //we are delegating aiming to this.
+
 
 // Sets default values
 ATank::ATank()
@@ -42,5 +43,12 @@ void ATank::SetBarrelReference(UTankBarrel *BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet); //This was defined in the TankAimingComponent. This line delgates the 
 			//set barrel reference (barrel to set) to the AimingComponent
+			//check the event graph of the Tank_BP to see that the references exist there and the relationship that was made.
+}
+
+void ATank::SetTurretReference(UTankTurret *TurretToSet)
+{
+	TankAimingComponent->SetTurretReference(TurretToSet); //This was defined in the TankAimingComponent. This line delgates the 
+			//set turret reference (barrel to set) to the AimingComponent
 			//check the event graph of the Tank_BP to see that the references exist there and the relationship that was made.
 }

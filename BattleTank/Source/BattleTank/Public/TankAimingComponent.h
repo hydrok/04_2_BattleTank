@@ -10,6 +10,7 @@
 
 //forward declaration makes the aiming component aware of the tank barrel class.
 class UTankBarrel;
+class UTankTurret;
 //Hold barrel properties and Elevate Method
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -32,11 +33,14 @@ public:
 	void AimAt(FVector OutHitLocation, float LaunchSpeed);
 	
 	void SetBarrelReference(UTankBarrel *BarrelToSet); //this is a setter. A pointer to static mesh component
+	void SetTurretReference(UTankTurret *TurretToSet);
 
 
 private:
 	UTankBarrel *Barrel = nullptr; //this is a pointer to the barrel meshcomponent of the Tank_BP
 		//the pointer now points to UTankBarrel, which we just created.
+	UTankTurret *Turret = nullptr;
 	void MoveBarrelTowards(FVector AimDirection);
+	void MoveTurretTowards(FVector AimDirection);
 	
 };
