@@ -9,6 +9,7 @@
 //forward declaration makes the tank aware of the tank barrel class.
 class UTankBarrel;
 class UTankAimingComponent;
+class AProjectile;
 
 
 UCLASS()
@@ -38,7 +39,7 @@ protected:
 	UTankAimingComponent *TankAimingComponent = nullptr; //a pointer to UTankAimingComponent called TankAiming Component
 
 
-public:	
+private:	
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -46,4 +47,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Firing) //creating a launch speed float variable that appears in the UE4 editor
 		float LaunchSpeed = 4000; // it has been set up to be overwritable in blueprint.
 	
+	UPROPERTY(EditAnywhere, Category = Setup)
+		TSubclassOf<AProjectile> ProjectileBlueprint; //reference to the blueprint in C++. Allows designer to select which blueprint 
+			//can be used for the projectile blueprint. A pointer to ANY UClass TSublcass restricts to only classes in the <>
+
+	UTankBarrel * Barrel = nullptr; //Local Barrel Reference for spawning projectile. something similar was done 
+		//for AimingComponent but we need a local one here
 };

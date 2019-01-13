@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
+#include "TankBarrel.h"
+#include "Projectile.h"
 #include "TankAimingComponent.h" //we are delegating aiming to this.
 
 
@@ -44,6 +46,7 @@ void ATank::SetBarrelReference(UTankBarrel *BarrelToSet)
 	TankAimingComponent->SetBarrelReference(BarrelToSet); //This was defined in the TankAimingComponent. This line delgates the 
 			//set barrel reference (barrel to set) to the AimingComponent
 			//check the event graph of the Tank_BP to see that the references exist there and the relationship that was made.
+	Barrel = BarrelToSet; //keeping a local reference to the Barrel. this is for the projectile spawn
 }
 
 void ATank::SetTurretReference(UTankTurret *TurretToSet)
@@ -56,4 +59,15 @@ void ATank::SetTurretReference(UTankTurret *TurretToSet)
 void ATank::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Fire actioned"))
+
+	if (!Barrel)
+	{
+		return;
+	}
+
+	GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBlueprint, //the thing we are going to spawn
+		Barrel->GetSocketLocation(FName("Projectile")), //getting the location of the barrel socket into a variable
+		Barrel->GetSocketRotation(FName("Projectile")) //getting the rotation of the barrel socket into a variable
+		);//spawn a projectile at the socket location/rotation of the barrel.
 }
