@@ -12,6 +12,7 @@ ATank::ATank()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false; //this was changed from true
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
+
 	//this is creating a sub-object from UTankAimingComponent, it needs an FName. this adds an AimingComponent to the Tank_BP windows in UE4
 	//The Tank_BP inherits the AimingComponent.
 }
@@ -58,16 +59,19 @@ void ATank::SetTurretReference(UTankTurret *TurretToSet)
 
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Fire actioned"))
+	
 
 	if (!Barrel)
 	{
 		return;
 	}
 
-	GetWorld()->SpawnActor<AProjectile>(
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>( //auto projectile gets us the projectile we need so we can do other stuff with it
 		ProjectileBlueprint, //the thing we are going to spawn
 		Barrel->GetSocketLocation(FName("Projectile")), //getting the location of the barrel socket into a variable
 		Barrel->GetSocketRotation(FName("Projectile")) //getting the rotation of the barrel socket into a variable
 		);//spawn a projectile at the socket location/rotation of the barrel.
+
+	Projectile->LaunchProjectile(LaunchSpeed); //call function from Projectile. auto projectile defines this or something.
+			//LaunchSpeed already defined.
 }
