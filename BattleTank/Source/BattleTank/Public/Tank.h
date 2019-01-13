@@ -53,4 +53,7 @@ private:
 
 	UTankBarrel * Barrel = nullptr; //Local Barrel Reference for spawning projectile. something similar was done 
 		//for AimingComponent but we need a local one here
+
+	float ReloadTimeinSeconds = 3;
+	double LastFireTime = 0;
 };
