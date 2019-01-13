@@ -64,12 +64,12 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 		//UE_LOG(LogTemp, Warning, TEXT("TIME: %f. %s AimDirection is %s aiming at %s from location of Barrel: %s with LaunchSpeed %f."), 
 			//Time, *OurTankName, *AimDirection.ToString(), *OutHitLocation.ToString(), *BarrelLocation.ToString(), LaunchSpeed); 
 			//The OutHitLocation.ToString() is just like other variables	
-		UE_LOG(LogTemp, Warning, TEXT("TIME: %f. AimSolution Found!"), Time)
+		//UE_LOG(LogTemp, Warning, TEXT("TIME: %f. AimSolution Found!"), Time)
 	}
 	else
 	{
 		auto Time = GetWorld()->GetTimeSeconds(); //for timestamps
-		UE_LOG(LogTemp, Warning, TEXT("TIME: %f. No AimSolution found"), Time)
+		//UE_LOG(LogTemp, Warning, TEXT("TIME: %f. No AimSolution found"), Time)
 	}
 }
 

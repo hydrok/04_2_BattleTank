@@ -52,3 +52,8 @@ void ATank::SetTurretReference(UTankTurret *TurretToSet)
 			//set turret reference (barrel to set) to the AimingComponent
 			//check the event graph of the Tank_BP to see that the references exist there and the relationship that was made.
 }
+
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Fire actioned"))
+}
