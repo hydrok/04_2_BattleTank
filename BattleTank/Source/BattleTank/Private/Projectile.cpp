@@ -30,9 +30,9 @@ void AProjectile::Tick(float DeltaTime)
 }
 
 void AProjectile::LaunchProjectile(float ProjectileSpeed)
-	{
-	UE_LOG(LogTemp, Warning, TEXT("projectile successfully called"))
-		
+{		
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * ProjectileSpeed);
 	ProjectileMovement->Activate();
-	}
+
+	// TODO clam throttle so player cant overdrive
+}
