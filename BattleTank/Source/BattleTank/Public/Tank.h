@@ -10,6 +10,7 @@
 class UTankBarrel;
 class UTankAimingComponent;
 class AProjectile;
+class UTankMovementComponent;
 
 
 UCLASS()
@@ -24,6 +25,8 @@ public:
 	void AimAt(FVector OutHitLocation); //the aim functionality, used by both the PlayerController and the AIController
 		//does not require LaunchSpeed
 
+	void IntendMoveForward(float Throw);
+
 	UFUNCTION(BlueprintCallable, Category=Setup)
 	void SetBarrelReference(UTankBarrel *BarrelToSet); //this is going to make a method that we can call from blueprint.
 
@@ -37,6 +40,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UTankAimingComponent *TankAimingComponent = nullptr; //a pointer to UTankAimingComponent called TankAiming Component
+
+	UPROPERTY(BlueprintReadOnly, Category = Input)
+	UTankMovementComponent *TankMovementComponent = nullptr;
 
 
 private:	

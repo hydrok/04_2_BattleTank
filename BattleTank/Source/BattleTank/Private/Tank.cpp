@@ -3,6 +3,7 @@
 #include "Tank.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
+#include "TankMovementComponent.h"
 #include "TankAimingComponent.h" //we are delegating aiming to this.
 
 
@@ -12,6 +13,7 @@ ATank::ATank()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false; //this was changed from true
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("MovementComponent"));
 
 	//this is creating a sub-object from UTankAimingComponent, it needs an FName. this adds an AimingComponent to the Tank_BP windows in UE4
 	//The Tank_BP inherits the AimingComponent.
@@ -38,8 +40,6 @@ void ATank::AimAt(FVector OutHitLocation)
 		//from outside of the tank, its ok to say "just aim at this thing (OutHitLocation)
 		//but from the inside of the tank, there is a notion of LaunchSpeed, and that gets sent to the AimingComponent.
 		//So because we are looking at TankAimingComponent, we have to pass another variable, LaunchSpeed, in order to compile.
-
-
 }
 
 void ATank::SetBarrelReference(UTankBarrel *BarrelToSet)
@@ -73,6 +73,9 @@ void ATank::Fire()
 				//LaunchSpeed already defined.
 		LastFireTime = FPlatformTime::Seconds(); //update the last fire time.
 	}
+}
 
-
+void ATank::IntendMoveForward(float Throw)
+{
+	TankMovementComponent->IntendMoveForward(Throw); //remember that this is a pointer. Launchspeed was added ad-hoc
 }
