@@ -5,19 +5,26 @@
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Intend to move forward: %f"), Throw);
-
+	if (!LeftTrack || !RightTrack) 
+	{
+		return;
+	}
 	LeftTrack->SetThrottle(Throw); //call set throttle from tanktrack.cpp
 	RightTrack->SetThrottle(Throw); //call set throttle from tanktrack.cpp
+}
 
+void UTankMovementComponent::IntendTurnRight(float Throw)
+{
+	if (!LeftTrack || !RightTrack)
+	{
+		return;
+	}
+	LeftTrack->SetThrottle(Throw); //call set throttle from tanktrack.cpp
+	RightTrack->SetThrottle(-Throw); //the minus here is to "offset" the positive to make a right turn.
 }
 
 void UTankMovementComponent::Initialise(UTankTrack*LeftTrackToSet, UTankTrack*RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet) //if OR
-	{
-		return;
-	}
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 }
