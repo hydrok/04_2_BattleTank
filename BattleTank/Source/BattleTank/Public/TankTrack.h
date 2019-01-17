@@ -6,6 +6,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTrack.generated.h"
 
+
+
 /**
  * TankTack is set to set max driving force and apply force to tank 
  */
@@ -21,5 +23,5 @@ public:
 	//this is max force PER TRACK in Newtons.
 	UPROPERTY(EditDefaultsOnly)
 	float TrackMaxDrivingForce = 400000; //rough guess, 400000N = 40000kg*(10m/s/s)
-	
+
 };
