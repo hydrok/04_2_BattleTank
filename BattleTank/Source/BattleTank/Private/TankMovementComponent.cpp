@@ -30,9 +30,13 @@ void UTankMovementComponent::Initialise(UTankTrack*LeftTrackToSet, UTankTrack*Ri
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
-//never explained what these are and how thery are populated or needed.
+//MoveToActor (in TankAIController) will call this function at some point.
 {
-	auto TankName = GetOwner()->GetName();
-	auto MoveVelocityString = MoveVelocity.ToString();
-	UE_LOG(LogTemp, Warning, TEXT("%s moving %s"), *TankName, *MoveVelocityString)
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal(); //the direction the tank is facing, in unit vector
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal(); //getsafenormal is a unit vector, a normalised output
+		//this is the direction the AI would like to move the tank, based on pathfinding.
+
+	auto AIForwardThrow = FVector::DotProduct(AIForwardIntention, TankForward);
+	IntendMoveForward(AIForwardThrow);
+	//UE_LOG(LogTemp, Warning, TEXT("%s moving %s"), *TankName, *AIForwardIntention)
 }
