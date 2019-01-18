@@ -42,6 +42,9 @@ void ATankAIController::Tick(float DeltaTime) //standard tick
 
 	if (PlayerTank)
 	{
+		//move to player
+		MoveToActor(PlayerTank, AcceptanceRadius); //this is a function inherited from AIController, of which TanAIController is a child.
+			//this function is the framework for moving the AI tank towards the player.
 		//AimTowardsPlayer(); //aim towards player, if one exists, see function
 		AIControlledTank->AimAt(PlayerTank->GetActorLocation());
 

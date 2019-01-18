@@ -20,6 +20,7 @@ private:
 	virtual void BeginPlay() override; //this checks to make sure that BeginPlay exists somehwere up the hierarchy of classes.
 	//in this case it is the AActor that has it. The virtual is defined in AActor as well, and it allows any child to extend the
 	//functionality of BeginPlay()
+	float AcceptanceRadius = 3000; //how close the AI gets to the player before stopping. 30 meters to start.
 	
 	//ATank *GetPlayerTank() const; // this is a pointer to the player tank, the AI needs to recognize the playercontrolled tank.
 	//return the value pointed to by GetPlayerTank of type ATank.
