@@ -14,7 +14,7 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
-	ATank* GetControlledTank() const; //this is a "getter". Get value pointed to by GetControlledTank() of type ATank.
+
 	
 	virtual void BeginPlay() override; //this checks to make sure that BeginPlay exists somehwere up the hierarchy of classes.
 		//in this case it is the AActor that has it. The virtual is defined in AActor as well, and it allows any child to extend the
@@ -43,4 +43,8 @@ private:
 	bool GetLookVectorHitLocation(FVector &OutHitLocation, FVector LookDirection) const;
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 100000;
+
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		ATank* GetControlledTank() const; //this is a "getter". Get value pointed to by GetControlledTank() of type ATank.
 };
