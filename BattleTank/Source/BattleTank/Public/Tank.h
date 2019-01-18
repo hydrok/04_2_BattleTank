@@ -46,7 +46,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = Input)
 	UTankMovementComponent *TankMovementComponent = nullptr;
 
-
 private:	
 
 	// Called to bind functionality to input

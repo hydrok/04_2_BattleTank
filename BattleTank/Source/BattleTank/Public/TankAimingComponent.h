@@ -8,6 +8,15 @@
 #include "Kismet/GameplayStatics.h" //for projectile velocity suggestion
 #include "TankAimingComponent.generated.h"
 
+// Enum for aiming state. Enums are useful when you have category "states"
+UENUM()
+enum class EFiringState : uint8
+{
+	Locked,
+	Aiming,
+	Reloading
+}; //for the reticule colour
+
 //forward declaration makes the aiming component aware of the tank barrel class.
 class UTankBarrel;
 class UTankTurret;
@@ -25,6 +34,8 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	UPROPERTY(BlueprintReadOnly, Category = "Setup")
+	EFiringState FiringState = EFiringState::Aiming; //initial value.
 
 public:	
 	// Called every frame
@@ -42,5 +53,6 @@ private:
 	UTankTurret *Turret = nullptr;
 	void MoveBarrelTowards(FVector AimDirection);
 	void MoveTurretTowards(FVector AimDirection);
-	
+
+
 };
