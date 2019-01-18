@@ -38,5 +38,10 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 	auto AIForwardThrow = FVector::DotProduct(AIForwardIntention, TankForward);
 	IntendMoveForward(AIForwardThrow);
+
+	auto AIRotationThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z; 
+		// .Z converts the cross product to a float so our turn right function can work.
+	IntendTurnRight(AIRotationThrow);
+
 	//UE_LOG(LogTemp, Warning, TEXT("%s moving %s"), *TankName, *AIForwardIntention)
 }
