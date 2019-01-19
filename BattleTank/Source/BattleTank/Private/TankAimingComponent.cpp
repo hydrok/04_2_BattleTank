@@ -10,7 +10,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false; //changed to false
-
 	// ...
 }
 
@@ -18,16 +17,13 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
 	// ...
-	
 }
 
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 }
 
 void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //has LaunchSpeed.
@@ -37,7 +33,6 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 	auto TurretLocation = Turret->GetComponentLocation();
 	
 		//it seems that whenever the AimAt is called that the OutHitLocation is populated in that AimAt call, then reported here.
-
 	if (!Barrel || !Turret)
 	{
 		return;
@@ -73,19 +68,6 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 	}
 }
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrel *BarrelToSet) //needs to refer to UTankBarrel, which is a child of Static Mesh
-	//this also needs to be changed in the Tank.h
-{	
-	if (!BarrelToSet) { return; }
-	Barrel = BarrelToSet; //AKA the barrel to set is the barrel.
-}
-
-void UTankAimingComponent::SetTurretReference(UTankTurret *TurretToSet)
-{
-	if (!TurretToSet) { return; }
-	Turret = TurretToSet;
-}
-
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	//if we have an aim solution
@@ -103,8 +85,15 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
 {
+	if (!Barrel || !Turret) { return; }
 	auto TurretRotator = Turret->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto TurretDeltaRotator = AimAsRotator - TurretRotator;
 	Turret->RotateTurret(TurretDeltaRotator.Yaw);
+}
+
+void UTankAimingComponent::Initialise(UTankBarrel*BarrelToSet, UTankTurret*TurretToSet)
+{
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
 }

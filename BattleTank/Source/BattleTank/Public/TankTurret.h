@@ -15,11 +15,11 @@ public:
 	void RotateTurret(float TurretRelativeSpeed); //intent is to make speed between -1 and 1
 
 private:
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float TurretMaxDegreesPerSecond = 15; //sensible default
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float TurretMaxElevationDegrees = 40; //sensible default
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float TurretMinElevationDegrees = 0; //sensible default
 	
 	
