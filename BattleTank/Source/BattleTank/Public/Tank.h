@@ -62,4 +62,5 @@ private:
 			//can be used for the projectile blueprint. A pointer to ANY UClass TSublcass restricts to only classes in the <>
 
 	UTankBarrel* Barrel = nullptr;
+
 };

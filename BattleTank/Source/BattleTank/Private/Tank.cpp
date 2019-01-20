@@ -22,6 +22,7 @@ ATank::ATank()
 
 void ATank::AimAt(FVector OutHitLocation)
 {
+	if (!TankAimingComponent) { return; }
 	TankAimingComponent->AimAt(OutHitLocation, LaunchSpeed); //remember that this is a pointer. Launchspeed was added ad-hoc
 		//ok this is a mindfuck...
 		//from outside of the tank, its ok to say "just aim at this thing (OutHitLocation)
