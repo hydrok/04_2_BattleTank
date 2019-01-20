@@ -12,12 +12,19 @@ ATank::ATank()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false; //this was changed from true
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s Cow: Tank C=++ Construct"), *TankName)
 
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("MovementComponent"));
 		//this was removed because we chose to do movement component a lslightly different way than aimingcomponent.
 
 	//this is creating a sub-object from UTankAimingComponent, it needs an FName. this adds an AimingComponent to the Tank_BP windows in UE4
 	//The Tank_BP inherits the AimingComponent.
+}
+
+void ATank::BeginPlay()
+{
+	Super::BeginPlay(); //needed for BP to run!!!
 }
 
 void ATank::AimAt(FVector OutHitLocation)

@@ -45,7 +45,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Input")
 	UTankMovementComponent *TankMovementComponent = nullptr;
 
-private:	
+private:
+	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing") //creating a launch speed float variable that appears in the UE4 editor
 		float LaunchSpeed = 4000; // it has been set up to be overwritable in blueprint.
