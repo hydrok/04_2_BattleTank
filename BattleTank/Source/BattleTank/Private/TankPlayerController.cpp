@@ -1,11 +1,23 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 void ATankPlayerController::BeginPlay() //virtual and void are removed here because they arent needed.
 {
 	Super::BeginPlay(); //call default behaviour before anything else.
+
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PlayerController can't find component at BeginPlay"))
+	}
+
 	UE_LOG(LogTemp, Warning, TEXT("PlayerController has initialized")); //this is a logout message useful for debugging.
 	auto ControlledTank = GetControlledTank(); //variable created for logging and debugging purposes, is the function finding a tank?
 	if (!ControlledTank) //if nothing returned from ControlledTank function
