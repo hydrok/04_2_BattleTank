@@ -31,7 +31,7 @@ void ATank::BeginPlay()
 
 void ATank::AimAt(FVector OutHitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(OutHitLocation, LaunchSpeed); //remember that this is a pointer. Launchspeed was added ad-hoc
 		//ok this is a mindfuck...
 		//from outside of the tank, its ok to say "just aim at this thing (OutHitLocation)
@@ -58,9 +58,9 @@ void ATank::AimAt(FVector OutHitLocation)
 
 void ATank::Fire()
 {
-	
+	if (!ensure(Barrel)) { return; }
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeinSeconds; //reload logic
-	if (Barrel && isReloaded)
+	if ( isReloaded)
 	{
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>( //auto projectile gets us the projectile we need so we can do other stuff with it
 			ProjectileBlueprint, //the thing we are going to spawn

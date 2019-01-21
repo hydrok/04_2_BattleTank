@@ -9,7 +9,7 @@ void ATankPlayerController::BeginPlay() //virtual and void are removed here beca
 	Super::BeginPlay(); //call default behaviour before anything else.
 
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent)
+	if (ensure(AimingComponent))
 	{
 		FoundAimingComponent(AimingComponent);
 	}
@@ -51,7 +51,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank())
+	if (!ensure(GetControlledTank()))
 	{
 		return;
 	}

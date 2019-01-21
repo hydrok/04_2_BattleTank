@@ -33,7 +33,7 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 	auto TurretLocation = Turret->GetComponentLocation();
 	
 		//it seems that whenever the AimAt is called that the OutHitLocation is populated in that AimAt call, then reported here.
-	if (!Barrel || !Turret)
+	if (!ensure(Barrel && Turret))
 	{
 		return;
 	}
@@ -85,7 +85,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
 {
-	if (!Barrel || !Turret) { return; }
+	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 	auto TurretRotator = Turret->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto TurretDeltaRotator = AimAsRotator - TurretRotator;
