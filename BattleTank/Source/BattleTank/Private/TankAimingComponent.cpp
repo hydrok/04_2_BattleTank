@@ -70,6 +70,7 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 	//if we have an aim solution
 	//calculate difference between current barrel elevation and Aim Direction
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation(); //rotation is a struct that contains roll pitch yaw.
