@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-#include "Tank.h"
+#include "TankAimingComponent.h"
 
 
 void ATankAIController::BeginPlay() //virtual and void are removed here because they arent needed.
@@ -37,20 +37,19 @@ void ATankAIController::Tick(float DeltaTime) //standard tick
 {
 	Super::Tick(DeltaTime);
 
-	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn()); //find players pawn and cast it to ATank
-	auto AIControlledTank = Cast<ATank>(GetPawn());
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn(); //find players pawn and cast it to ATank
+	auto AIControlledTank = GetPawn();
 
-	if (ensure(PlayerTank))
-	{
-		//move to player
-		MoveToActor(PlayerTank, AcceptanceRadius); //this is a function inherited from AIController, of which TanAIController is a child.
-			//this function is the framework for moving the AI tank towards the player.
-		//AimTowardsPlayer(); //aim towards player, if one exists, see function
-		AIControlledTank->AimAt(PlayerTank->GetActorLocation());
+	if (!ensure(PlayerTank && AIControlledTank)) { return; }
+	//move to player
+	MoveToActor(PlayerTank, AcceptanceRadius); //this is a function inherited from AIController, of which TanAIController is a child.
+		//this function is the framework for moving the AI tank towards the player.
+	//AimTowardsPlayer(); //aim towards player, if one exists, see function
+	auto AimingComponent = AIControlledTank->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
-		//fire
-		AIControlledTank->Fire(); // TODO dont fire every frame
-	}
+	//fire //TODO fix firing
+	//AIControlledTank->Fire(); // TODO dont fire every frame
 }
 
 //void ATankAIController::AimTowardsPlayer() //this was defactored

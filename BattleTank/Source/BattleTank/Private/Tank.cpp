@@ -3,8 +3,6 @@
 #include "Tank.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
-#include "TankAimingComponent.h" //we are delegating aiming to this.
-
 
 // Sets default values
 ATank::ATank()
@@ -27,17 +25,6 @@ void ATank::BeginPlay()
 	auto TankName = GetName();
 	UE_LOG(LogTemp, Warning, TEXT("%s Cow: Tank C++ BeginPlay"), *TankName)
 
-		TankAimingComponent = FindComponentByClass < UTankAimingComponent >();
-}
-
-void ATank::AimAt(FVector OutHitLocation)
-{
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(OutHitLocation, LaunchSpeed); //remember that this is a pointer. Launchspeed was added ad-hoc
-		//ok this is a mindfuck...
-		//from outside of the tank, its ok to say "just aim at this thing (OutHitLocation)
-		//but from the inside of the tank, there is a notion of LaunchSpeed, and that gets sent to the AimingComponent.
-		//So because we are looking at TankAimingComponent, we have to pass another variable, LaunchSpeed, in order to compile.
 }
 
 //void ATank::SetBarrelReference(UTankBarrel *BarrelToSet)

@@ -2,13 +2,12 @@
 
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 
 void ATankPlayerController::BeginPlay() //virtual and void are removed here because they arent needed.
 {
 	Super::BeginPlay(); //call default behaviour before anything else.
 
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure(AimingComponent))
 	{
 		FoundAimingComponent(AimingComponent);
@@ -19,7 +18,7 @@ void ATankPlayerController::BeginPlay() //virtual and void are removed here beca
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("PlayerController has initialized")); //this is a logout message useful for debugging.
-	auto ControlledTank = GetControlledTank(); //variable created for logging and debugging purposes, is the function finding a tank?
+	auto ControlledTank = GetPawn(); //variable created for logging and debugging purposes, is the function finding a tank?
 	if (!ControlledTank) //if nothing returned from ControlledTank function
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController not possessed a ControlledTank")); //make a log.
@@ -41,17 +40,10 @@ void ATankPlayerController::Tick(float DeltaTime)
 	//and visual feedback (like the turrent and barrel moving towards the world coordinates of the reticule
 }
 
-ATank* ATankPlayerController::GetControlledTank() const 
-//this is a "getter". Get value pointed to by GetControlledTank() of type ATank.
-// the ATankPlayerController:: part makes the reference specificically from TankPlayerController.h, I think...
-{
-	//The TankPlayerController needs to know what tank it is controlling.
-	return Cast<ATank>(GetPawn()); //this CAST syntax asks to run GetPawn() from ATank...I think...
-}
-
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ensure(GetControlledTank()))
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent))
 	{
 		return;
 	}
@@ -60,7 +52,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 		FVector OutHitLocation; //Out parameter, this is a FVector type variable
 		if (GetSightRayHitLocation(OutHitLocation)) //this will eventually ray-trace as well, which we neeeeeeeed
 		{		
-			GetControlledTank()->AimAt(OutHitLocation); //pass from TankPlayerController to the Tank. The AimAt part is the signal.
+			AimingComponent->AimAt(OutHitLocation); //pass from TankPlayerController to the Tank. The AimAt part is the signal.
 				//Call AimAt from the controled tank
 			//get world location of linetrace through crosshair
 			//if it hits landscape

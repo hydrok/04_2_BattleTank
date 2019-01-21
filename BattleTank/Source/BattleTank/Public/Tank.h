@@ -8,7 +8,6 @@
 
 //forward declaration makes the tank aware of the tank barrel class.
 class UTankBarrel;
-class UTankAimingComponent;
 class AProjectile;
 
 UCLASS()
@@ -19,9 +18,6 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
-
-	void AimAt(FVector OutHitLocation); //the aim functionality, used by both the PlayerController and the AIController
-		//does not require LaunchSpeed
 
 	void IntendMoveForward(float Throw);
 
@@ -36,9 +32,6 @@ public:
 	void Fire(); //this is going to make a method that we can call from blueprint.
 
 protected:
-
-	UPROPERTY(BlueprintReadOnly, Category = "Input")
-	UTankAimingComponent *TankAimingComponent = nullptr; //a pointer to UTankAimingComponent called TankAiming Component
 
 private:
 	virtual void BeginPlay() override;

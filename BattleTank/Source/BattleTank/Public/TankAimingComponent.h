@@ -40,7 +40,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel*BarrelToSet, UTankTurret*TurretToSet);
 
-	void AimAt(FVector OutHitLocation, float LaunchSpeed);
+	void AimAt(FVector OutHitLocation);
 	
 private:
 	UTankBarrel *Barrel = nullptr; //this is a pointer to the barrel meshcomponent of the Tank_BP
@@ -52,4 +52,7 @@ private:
 
 	// Sets default values for this component's properties
 	UTankAimingComponent();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing") //creating a launch speed float variable that appears in the UE4 editor
+		float LaunchSpeed = 4000; // it has been set up to be overwritable in blueprint.
 };
