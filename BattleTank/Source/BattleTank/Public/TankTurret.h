@@ -16,11 +16,5 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float TurretMaxDegreesPerSecond = 15; //sensible default
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float TurretMaxElevationDegrees = 40; //sensible default
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float TurretMinElevationDegrees = 0; //sensible default
-	
-	
+		float TurretMaxDegreesPerSecond = 25; //sensible default
 };

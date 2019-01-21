@@ -19,7 +19,7 @@ public:
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float MaxDegreesPerSecond = 5; //sensible default
+		float MaxDegreesPerSecond = 15; //sensible default
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float MaxElevationDegrees = 40; //sensible default
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")

@@ -33,7 +33,7 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 	auto TurretLocation = Turret->GetComponentLocation();
 	
 		//it seems that whenever the AimAt is called that the OutHitLocation is populated in that AimAt call, then reported here.
-	if (!ensure(Barrel && Turret))
+	if (!ensure(Barrel))
 	{
 		return;
 	}
@@ -55,7 +55,7 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation, float LaunchSpeed) //ha
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); //this converts the LaunchVelocity Length to the LaunchDirectionLength, a unit vector
 		auto Time = GetWorld()->GetTimeSeconds(); //for timestamps
 		MoveBarrelTowards(AimDirection);
-		MoveTurretTowards(AimDirection);
+		//MoveTurretTowards(AimDirection);
 		//UE_LOG(LogTemp, Warning, TEXT("TIME: %f. %s AimDirection is %s aiming at %s from location of Barrel: %s with LaunchSpeed %f."), 
 			//Time, *OurTankName, *AimDirection.ToString(), *OutHitLocation.ToString(), *BarrelLocation.ToString(), LaunchSpeed); 
 			//The OutHitLocation.ToString() is just like other variables	
@@ -80,18 +80,19 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotator; //this calculates the difference between what we need and what we have
 
 	Barrel->ElevateBarrel(DeltaRotator.Pitch); //call ElevatePitch from TankBarrel. It will set relative barrel rotation
+	Turret->RotateTurret(DeltaRotator.Yaw);
 		//and it will feed DelatRotator as the RelativeSpeed, which will be clamped to be -1 and 1
 		//this is a way to pass positive or negative value based on degree rotation.
 }
 
-void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
-{
-	if (!ensure(Barrel) || !ensure(Turret)) { return; }
-	auto TurretRotator = Turret->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
-	auto TurretDeltaRotator = AimAsRotator - TurretRotator;
-	Turret->RotateTurret(TurretDeltaRotator.Yaw);
-}
+//void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
+//{
+//	if (!ensure(Barrel) || !ensure(Turret)) { return; }
+//	auto TurretRotator = Turret->GetForwardVector().Rotation();
+//	auto AimAsRotator = AimDirection.Rotation();
+//	auto TurretDeltaRotator = AimAsRotator - TurretRotator;
+//	Turret->RotateTurret(TurretDeltaRotator.Yaw);
+//}
 
 void UTankAimingComponent::Initialise(UTankBarrel*BarrelToSet, UTankTurret*TurretToSet)
 {
