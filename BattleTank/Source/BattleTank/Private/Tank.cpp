@@ -3,7 +3,6 @@
 #include "Tank.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
-#include "TankMovementComponent.h"
 #include "TankAimingComponent.h" //we are delegating aiming to this.
 
 
@@ -74,7 +73,7 @@ void ATank::Fire()
 	}
 }
 
-void ATank::IntendMoveForward(float Throw)
-{
-	TankMovementComponent->IntendMoveForward(Throw); //remember that this is a pointer. Launchspeed was added ad-hoc
-}
+//void ATank::IntendMoveForward(float Throw)
+//{
+//	TankMovementComponent->IntendMoveForward(Throw); //remember that this is a pointer. Launchspeed was added ad-hoc
+//}
