@@ -49,7 +49,7 @@ void ATankAIController::Tick(float DeltaTime) //standard tick
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
 	//fire //TODO fix firing
-	//AIControlledTank->Fire(); // TODO dont fire every frame
+	AimingComponent->Fire(); // TODO dont fire every frame
 }
 
 //void ATankAIController::AimTowardsPlayer() //this was defactored
