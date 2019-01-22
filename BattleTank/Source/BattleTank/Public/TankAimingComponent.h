@@ -49,6 +49,8 @@ private:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 	void MoveBarrelTowards(FVector AimDirection);
 	//void MoveTurretTowards(FVector AimDirection);
+
+	bool IsBarrelMoving();
 	
 	UTankBarrel *Barrel = nullptr; //this is a pointer to the barrel meshcomponent of the Tank_BP
 		//the pointer now points to UTankBarrel, which we just created.
@@ -65,6 +67,8 @@ private:
 		float ReloadTimeinSeconds = 3;
 
 	double LastFireTime = 0;
+
+	FVector AimDirection;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup") // TODO may want to revert this to EditAnywhere if different BP projectiles based
 			//on tank class, example: you are allowed to choose a different tank.
