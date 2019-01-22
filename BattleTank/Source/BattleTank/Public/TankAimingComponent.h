@@ -29,15 +29,12 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+
 	UPROPERTY(BlueprintReadOnly, Category = "Setup")
-	EFiringState FiringState = EFiringState::Aiming; //initial value.
+	EFiringState FiringState = EFiringState::Reloading; //initial value.
 
 public:	
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel*BarrelToSet, UTankTurret*TurretToSet);
 
@@ -47,6 +44,9 @@ public:
 		void Fire(); //this is going to make a method that we can call from blueprint.
 	
 private:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 	void MoveBarrelTowards(FVector AimDirection);
 	//void MoveTurretTowards(FVector AimDirection);
 	

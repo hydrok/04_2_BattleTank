@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h" //need to include this so the aiming component is aware of the barrel functions
 #include "TankTurret.h" //need to include this so the aiming component is aware of the turret functions
+#include "ConstructorHelpers.h" //to deal with unreal bug
 #include "Projectile.h"
 
 // Sets default values for this component's properties
@@ -10,21 +11,30 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false; //changed to false
-	// ...
+		//this is to fix the blueprint selection bug in unreal.
+	static ConstructorHelpers::FClassFinder<AProjectile> Proj(TEXT("/Game/Tank/Projectile_BP"));
+	if (Proj.Class)
+	{
+		ProjectileBlueprint = Proj.Class;
+	}
+
+	PrimaryComponentTick.bCanEverTick = true; 
 }
 
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	// ...
+	LastFireTime = FPlatformTime::Seconds(); //update the last fire time.
 }
 
 // Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeinSeconds) //reload logic
+	{
+		FiringState = EFiringState::Reloading;
+	}
 }
 
 void UTankAimingComponent::AimAt(FVector OutHitLocation) //has LaunchSpeed.
@@ -103,10 +113,13 @@ void UTankAimingComponent::Initialise(UTankBarrel*BarrelToSet, UTankTurret*Turre
 
 void UTankAimingComponent::Fire()
 {
-	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeinSeconds; //reload logic
-	if (isReloaded)
+	
+
+	if (FiringState !=EFiringState::Reloading)
 	{
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBlueprint)) { return; }
+
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>( //auto projectile gets us the projectile we need so we can do other stuff with it
 			ProjectileBlueprint, //the thing we are going to spawn
 			Barrel->GetSocketLocation(FName("Projectile")), //getting the location of the barrel socket into a variable
