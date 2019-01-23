@@ -51,8 +51,10 @@ void ATankPlayerController::AimTowardsCrosshair()
 	else
 	{
 		FVector OutHitLocation; //Out parameter, this is a FVector type variable
-		if (GetSightRayHitLocation(OutHitLocation)) //this will eventually ray-trace as well, which we neeeeeeeed
-		{		
+		bool bGotHitLocation = GetSightRayHitLocation(OutHitLocation);
+		UE_LOG(LogTemp, Warning, TEXT("%i bGotHitLocation"), bGotHitLocation)
+		if (bGotHitLocation) //this will eventually ray-trace as well, which we neeeeeeee
+		{	
 			AimingComponent->AimAt(OutHitLocation); //pass from TankPlayerController to the Tank. The AimAt part is the signal.
 				//Call AimAt from the controled tank
 			//get world location of linetrace through crosshair
@@ -79,8 +81,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation) cons
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Player camera LookDirection is pointed at: %s"), *LookDirection.ToString());
 		//line trace through the crosshair in the direction of deprojection, called LookDirection
-		GetLookVectorHitLocation(OutHitLocation, LookDirection);
-		return true;
+		return GetLookVectorHitLocation(OutHitLocation, LookDirection);
 	}
 	else
 	{

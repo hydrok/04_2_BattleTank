@@ -99,7 +99,14 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotator; //this calculates the difference between what we need and what we have
 
 	Barrel->ElevateBarrel(DeltaRotator.Pitch); //call ElevatePitch from TankBarrel. It will set relative barrel rotation
-	Turret->RotateTurret(DeltaRotator.Yaw);
+	if (FMath::Abs(DeltaRotator.Yaw) < 180)
+	{
+		Turret->RotateTurret(DeltaRotator.Yaw);
+	}
+	else
+	{
+		Turret->RotateTurret(-DeltaRotator.Yaw); //yaw the shortest way.
+	}
 		//and it will feed DelatRotator as the RelativeSpeed, which will be clamped to be -1 and 1
 		//this is a way to pass positive or negative value based on degree rotation.
 }

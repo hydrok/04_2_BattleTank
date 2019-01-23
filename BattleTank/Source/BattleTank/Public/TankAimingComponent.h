@@ -60,7 +60,7 @@ private:
 	UTankAimingComponent();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing") //creating a launch speed float variable that appears in the UE4 editor
-		float LaunchSpeed = 4000; // it has been set up to be overwritable in blueprint.
+		float LaunchSpeed = 20000; // it has been set up to be overwritable in blueprint.
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing") //EditDefaultsOnly lets you ONLY modify the archetype, 
 			//and not each instance of "Tank". can only edit it the BLUEPRINT
