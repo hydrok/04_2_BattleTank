@@ -31,7 +31,12 @@ void UTankAimingComponent::BeginPlay()
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-	if (bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) < ReloadTimeinSeconds) //reload logic
+	
+	if (RoundsLeft <= 0)
+	{
+		FiringState = EFiringState::OutOfAmmo;
+	}
+	else if (bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) < ReloadTimeinSeconds) //reload logic
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -43,6 +48,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	{
 		FiringState = EFiringState::Locked;
 	}
+}
+
+int UTankAimingComponent::GetRoundsLeft() const
+{
+	return RoundsLeft; 
 }
 
 EFiringState UTankAimingComponent::GetFiringState() const
@@ -135,7 +145,7 @@ void UTankAimingComponent::Fire()
 {
 	
 
-	if (FiringState !=EFiringState::Reloading)
+	if (FiringState == EFiringState::Aiming || FiringState == EFiringState::Locked)
 	{
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
@@ -149,6 +159,7 @@ void UTankAimingComponent::Fire()
 		Projectile->LaunchProjectile(LaunchSpeed); //call function from Projectile. auto projectile defines this or something.
 				//LaunchSpeed already defined.
 		LastFireTime = FPlatformTime::Seconds(); //update the last fire time.
+		RoundsLeft--;
 	}
 }
 

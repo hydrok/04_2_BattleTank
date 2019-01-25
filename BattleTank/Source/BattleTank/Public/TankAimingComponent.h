@@ -14,7 +14,8 @@ enum class EFiringState : uint8
 {
 	Locked,
 	Aiming,
-	Reloading
+	Reloading,
+	OutOfAmmo
 }; //for the reticule colour
 
 //forward declaration makes the aiming component aware of the tank barrel class.
@@ -33,6 +34,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Setup")
 	EFiringState FiringState = EFiringState::Reloading; //initial value.
 
+
 public:	
 	// Called every frame
 	UFUNCTION(BlueprintCallable, Category = "Setup")
@@ -45,6 +47,9 @@ public:
 
 	//need method to return firing state for AI
 	EFiringState GetFiringState() const; //this is just a getter, notice how there is no void here
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+		int GetRoundsLeft() const;
 	
 private:
 	// Called when the game starts
@@ -77,4 +82,6 @@ private:
 			//on tank class, example: you are allowed to choose a different tank.
 		TSubclassOf<AProjectile> ProjectileBlueprint; //reference to the blueprint in C++. Allows designer to select which blueprint 
 			//can be used for the projectile blueprint. A pointer to ANY UClass TSublcass restricts to only classes in the <>
+
+	int RoundsLeft = 3;
 };
