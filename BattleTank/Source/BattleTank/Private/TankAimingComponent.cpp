@@ -31,7 +31,6 @@ void UTankAimingComponent::BeginPlay()
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-	
 	if (RoundsLeft <= 0)
 	{
 		FiringState = EFiringState::OutOfAmmo;
