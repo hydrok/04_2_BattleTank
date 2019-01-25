@@ -52,7 +52,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 	{
 		FVector OutHitLocation; //Out parameter, this is a FVector type variable
 		bool bGotHitLocation = GetSightRayHitLocation(OutHitLocation);
-		UE_LOG(LogTemp, Warning, TEXT("%i bGotHitLocation"), bGotHitLocation)
 		if (bGotHitLocation) //this will eventually ray-trace as well, which we neeeeeeee
 		{	
 			AimingComponent->AimAt(OutHitLocation); //pass from TankPlayerController to the Tank. The AimAt part is the signal.

@@ -48,7 +48,8 @@ void ATankAIController::Tick(float DeltaTime) //standard tick
 	auto AimingComponent = AIControlledTank->FindComponentByClass<UTankAimingComponent>();
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
-	//fire //TODO fix firing
+	//fire, only if aim or locked enum state
+	if (AimingComponent->GetFiringState() == EFiringState::Locked)
 	AimingComponent->Fire(); // TODO dont fire every frame
 }
 

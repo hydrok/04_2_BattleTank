@@ -42,6 +42,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 		void Fire(); //this is going to make a method that we can call from blueprint.
+
+	//need method to return firing state for AI
+	EFiringState GetFiringState() const; //this is just a getter, notice how there is no void here
 	
 private:
 	// Called when the game starts

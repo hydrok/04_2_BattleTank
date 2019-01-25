@@ -45,6 +45,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	}
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 void UTankAimingComponent::AimAt(FVector OutHitLocation) //has LaunchSpeed.
 {
 	auto OurTankName = GetOwner()->GetName(); //gets object name of the owner class (tank in this case)
@@ -146,6 +151,8 @@ void UTankAimingComponent::Fire()
 		LastFireTime = FPlatformTime::Seconds(); //update the last fire time.
 	}
 }
+
+
 
 bool UTankAimingComponent::IsBarrelMoving()
 {
