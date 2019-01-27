@@ -13,6 +13,15 @@ AProjectile::AProjectile()
 	//the objective here is taht we want it in the Projectile_BP
 	ProjectileMovement->bAutoActivate = false; //doesnt satrt flying off until we fire it, we are explicitly setting this
 		//worht noting that this can be done entirely in blueprint as well
+
+	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("CollisionMesh"));
+	SetRootComponent(CollisionMesh);
+	CollisionMesh->SetNotifyRigidBodyCollision(true);
+	CollisionMesh->SetVisibility(false);
+
+	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("LaunchBlast"));
+	LaunchBlast->AttachTo(RootComponent);
+
 }
 
 // Called when the game starts or when spawned
@@ -33,6 +42,4 @@ void AProjectile::LaunchProjectile(float ProjectileSpeed)
 {		
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * ProjectileSpeed);
 	ProjectileMovement->Activate();
-
-	// TODO clam throttle so player cant overdrive
 }

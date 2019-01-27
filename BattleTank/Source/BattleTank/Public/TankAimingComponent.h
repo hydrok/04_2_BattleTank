@@ -49,7 +49,7 @@ public:
 	EFiringState GetFiringState() const; //this is just a getter, notice how there is no void here
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-		int GetRoundsLeft() const;
+		int32 GetRoundsLeft() const;
 	
 private:
 	// Called when the game starts
@@ -72,7 +72,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing") //EditDefaultsOnly lets you ONLY modify the archetype, 
 			//and not each instance of "Tank". can only edit it the BLUEPRINT
-		float ReloadTimeinSeconds = 3;
+		float ReloadTimeinSeconds = 0.1;
 
 	double LastFireTime = 0;
 
@@ -83,5 +83,6 @@ private:
 		TSubclassOf<AProjectile> ProjectileBlueprint; //reference to the blueprint in C++. Allows designer to select which blueprint 
 			//can be used for the projectile blueprint. A pointer to ANY UClass TSublcass restricts to only classes in the <>
 
-	int RoundsLeft = 3;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 RoundsLeft = 20;
 };
