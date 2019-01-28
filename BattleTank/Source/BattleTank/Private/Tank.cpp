@@ -35,3 +35,22 @@ ATank::ATank()
 //{
 //	TankMovementComponent->IntendMoveForward(Throw); //remember that this is a pointer. Launchspeed was added ad-hoc
 //}
+
+float ATank::TakeDamage
+(
+	float DamageAmount,
+	struct FDamageEvent const & DamageEvent,
+	class AController * EventInstigator,
+	AActor * DamageCauser
+)
+{
+	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
+	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
+
+	CurrentHealth -= DamageToApply;
+	if (CurrentHealth <= 0)
+	{ 
+	UE_LOG(LogTemp, Warning, TEXT("Tank dead"))
+	}
+	return DamageToApply;
+ }
