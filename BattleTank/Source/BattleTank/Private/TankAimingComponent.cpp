@@ -101,14 +101,14 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation) //has LaunchSpeed.
 	}
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 	//if we have an aim solution
 	//calculate difference between current barrel elevation and Aim Direction
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation(); //rotation is a struct that contains roll pitch yaw.
 		//this is the current roll pitch yaw of the barrel at the moment
-	auto AimAsRotator = AimDirection.Rotation();  //the is the rotation the barrel has to go to.
+	auto AimAsRotator = TargetAimDirection.Rotation();  //the is the rotation the barrel has to go to.
 	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *AimAsRotator.ToString()); //The OutHitLocation.ToString() is just like other variables
 	auto DeltaRotator = AimAsRotator - BarrelRotator; //this calculates the difference between what we need and what we have
 
