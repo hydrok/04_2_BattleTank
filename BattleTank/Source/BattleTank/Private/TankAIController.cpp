@@ -2,6 +2,7 @@
 
 #include "TankAIController.h"
 #include "TankAimingComponent.h"
+#include "Tank.h"
 
 
 void ATankAIController::BeginPlay() //virtual and void are removed here because they arent needed.
@@ -31,6 +32,23 @@ void ATankAIController::BeginPlay() //virtual and void are removed here because 
 	//	UE_LOG(LogTemp, Warning, TEXT("TankAIController has found a player possessing %s"), *(PlayerTank->GetName())); //log the tank that is possessed.
 	//} //much of this was defactored
 
+}
+
+void ATankAIController::SetPawn(APawn * InPawn) //this gets called when the pawn is possessed.
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		//aubscribe to ondeath method broadcast
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+	}
+}
+
+void ATankAIController::OnPossessedTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Received broadcast"))
 }
 
 void ATankAIController::Tick(float DeltaTime) //standard tick

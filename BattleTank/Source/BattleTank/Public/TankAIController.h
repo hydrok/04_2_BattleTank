@@ -25,6 +25,12 @@ private:
 	//this was defactored
 
 	//void AimTowardsPlayer(); //defactored
+
+	virtual void SetPawn(APawn * InPawn) override; //this gets called when the pawn is possessed.
+
+	UFUNCTION()
+		void OnPossessedTankDeath();
+
 protected:
 	UPROPERTY(EditDefaultsOnly,Category = "Setup")
 		float AcceptanceRadius = 8000; //how close the AI gets to the player before stopping. 3 meters to start.
