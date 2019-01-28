@@ -72,7 +72,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing") //EditDefaultsOnly lets you ONLY modify the archetype, 
 			//and not each instance of "Tank". can only edit it the BLUEPRINT
-		float ReloadTimeinSeconds = 0.1;
+		float ReloadTimeinSeconds = 1;
 
 	double LastFireTime = 0;
 
