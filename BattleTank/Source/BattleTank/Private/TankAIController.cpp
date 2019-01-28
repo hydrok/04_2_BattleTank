@@ -41,14 +41,15 @@ void ATankAIController::SetPawn(APawn * InPawn) //this gets called when the pawn
 	{
 		auto PossessedTank = Cast<ATank>(InPawn);
 		if (!ensure(PossessedTank)) { return; }
-		//aubscribe to ondeath method broadcast
+		//subscribe to ondeath method broadcast
 		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
 	}
 }
 
 void ATankAIController::OnPossessedTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Received broadcast"))
+	if (!ensure(GetPawn())) { return; }
+		GetPawn()->DetachFromControllerPendingDestroy();
 }
 
 void ATankAIController::Tick(float DeltaTime) //standard tick

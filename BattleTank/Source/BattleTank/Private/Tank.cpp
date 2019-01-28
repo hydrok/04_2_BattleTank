@@ -14,6 +14,12 @@ ATank::ATank()
 	//The Tank_BP inherits the AimingComponent.
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+	CurrentHealth = StartingHealth;
+}
+
 //void ATank::SetBarrelReference(UTankBarrel *BarrelToSet)
 //{
 //	TankAimingComponent->SetBarrelReference(BarrelToSet); //This was defined in the TankAimingComponent. This line delgates the 

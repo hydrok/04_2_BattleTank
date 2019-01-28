@@ -20,6 +20,10 @@ public:
 		//in this case it is the AActor that has it. The virtual is defined in AActor as well, and it allows any child to extend the
 		//functionality of BeginPlay()
 
+	void SetPawn(APawn * InPawn);
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override; //virtual means that any child can override or enhance this. In this case we also override
 		//which enhances the parent function Tick.

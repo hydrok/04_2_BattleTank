@@ -2,6 +2,25 @@
 
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
+#include "Tank.h"
+
+
+void ATankPlayerController::SetPawn(APawn * InPawn) //this gets called when the pawn is possessed.
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		//subscribe to ondeath method broadcast
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+	}
+}
+
+void ATankPlayerController::OnPossessedTankDeath()
+{
+	StartSpectatingOnly();
+}
 
 void ATankPlayerController::BeginPlay() //virtual and void are removed here because they arent needed.
 {
@@ -113,7 +132,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &OutHitLocation, FV
 		HitResult, //defined above
 		StartLocation, //defined above
 		EndLocation, //defined above, this is the only one which uses a variable from another function
-		ECollisionChannel::ECC_Visibility,
+		ECollisionChannel::ECC_Camera,
 		Params)
 	)
 	{
