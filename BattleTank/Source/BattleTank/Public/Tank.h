@@ -26,6 +26,10 @@ public:
 		AActor * DamageCauser
 	) override;
 
+	//returns currenthealth as percentage of starting health between 0 and 1
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent() const;
+
 private:
 	UPROPERTY(EditDefaultsOnly, Category="Setup")
 	int32 StartingHealth = 100;
