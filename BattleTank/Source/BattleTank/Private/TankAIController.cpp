@@ -59,7 +59,7 @@ void ATankAIController::Tick(float DeltaTime) //standard tick
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn(); //find players pawn and cast it to ATank
 	auto AIControlledTank = GetPawn();
 
-	if (!ensure(PlayerTank && AIControlledTank)) { return; }
+	if (!(PlayerTank && AIControlledTank)) { return; }
 	//move to player
 	MoveToActor(PlayerTank, AcceptanceRadius); //this is a function inherited from AIController, of which TanAIController is a child.
 		//this function is the framework for moving the AI tank towards the player.
