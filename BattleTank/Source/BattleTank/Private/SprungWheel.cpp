@@ -1,6 +1,7 @@
 // Copyright HardieSoftworks
 
 #include "SprungWheel.h"
+#include "PhysicsEngine/PhysicsConstraintComponent.h"
 
 // Sets default values
 ASprungWheel::ASprungWheel()
@@ -10,11 +11,8 @@ ASprungWheel::ASprungWheel()
 	PhysicsConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("PhysicsConstraint"));
 	SetRootComponent(PhysicsConstraint);
 
-	Mass = CreateDefaultSubobject<UStaticMeshComponent>(FName("Mass"));
-	Mass->SetupAttachment(PhysicsConstraint);
-
 	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
-	Wheel->SetupAttachment(Mass);
+	Wheel->SetupAttachment(PhysicsConstraint);
 
 }
 
@@ -22,9 +20,16 @@ ASprungWheel::ASprungWheel()
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	SetupConstraint();
 }
 
+void ASprungWheel::SetupConstraint()
+{
+	if (!GetAttachParentActor()) { return; }
+	UPrimitiveComponent* BodyRoot = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
+	if (!BodyRoot) { return; }
+	PhysicsConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Wheel, NAME_None);
+}
 // Called every frame
 void ASprungWheel::Tick(float DeltaTime)
 {
