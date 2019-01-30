@@ -2,6 +2,8 @@
 
 #include "SpawnPoint.h"
 #include "Kismet/GameplayStatics.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
+#include "SprungWheel.h"
 
 // Sets default values for this component's properties
 USpawnPoint::USpawnPoint()
@@ -10,6 +12,11 @@ USpawnPoint::USpawnPoint()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
+	static ConstructorHelpers::FClassFinder<ASprungWheel> Proj(TEXT("/Game/Tank/SprungWheel_BP"));
+	if (Proj.Class)
+	{
+		SpawnClass = Proj.Class;
+	}
 	// ...
 }
 

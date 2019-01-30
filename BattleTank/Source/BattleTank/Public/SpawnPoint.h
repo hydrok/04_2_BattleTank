@@ -24,10 +24,13 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup") // TODO may want to revert this to EditAnywhere if different BP projectiles based
 		//on tank class, example: you are allowed to choose a different tank.
 		TSubclassOf<AActor>SpawnClass; //reference to the blueprint in C++. Allows designer to select which blueprint 
+
+
+private:
+
 
 };
