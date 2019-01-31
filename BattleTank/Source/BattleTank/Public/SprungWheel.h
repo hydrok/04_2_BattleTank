@@ -29,7 +29,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Spring Setup")
 	UPhysicsConstraintComponent * PhysicsConstraint = nullptr;
-
+	UPROPERTY(VisibleAnywhere, Category = "Spring Setup")
+		UStaticMeshComponent * Axle = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Spring Setup")
+		UPhysicsConstraintComponent * AxleWheelConstraint = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = "Spring Setup")
 	UStaticMeshComponent * Wheel = nullptr;
 
