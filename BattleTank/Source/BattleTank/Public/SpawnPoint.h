@@ -29,8 +29,10 @@ public:
 		//on tank class, example: you are allowed to choose a different tank.
 		TSubclassOf<AActor>SpawnClass; //reference to the blueprint in C++. Allows designer to select which blueprint 
 
+	AActor * GetSpawnedActor() const { return SpawnedActor; } 
+	//works through the spawned actor in the cpp. it returns the spawned actor.
 
 private:
-
-
+	UPROPERTY()
+		AActor * SpawnedActor;
 };

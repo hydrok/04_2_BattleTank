@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/StaticMeshComponent.h"
+#include "SpawnPoint.h"
 #include "TankTrack.generated.h"
 
 
@@ -25,18 +26,11 @@ public:
 	float TrackMaxDrivingForce = 20000000; 
 
 	UTankTrack();
-	virtual void BeginPlay() override;
 
-	void ApplySidewaysForce();
-
-	UFUNCTION()
-		void OnHit(UPrimitiveComponent* HitComponent, AActor*OtherActor, UPrimitiveComponent*OtherComponent,
-			FVector NormalImpulse, const FHitResult& Hit);
-
-	void DriveTrack();
-
-	float CurrentThrottle = 0;
+	void DriveTrack(float CurrentThrottle);
 
 private:
 
+	TArray<class ASprungWheel*> GetWheels() const; //getting a list of all the wheels, an arry type
+	USpawnPoint * SpawnedSpring;
 };
