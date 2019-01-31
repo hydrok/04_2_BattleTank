@@ -24,7 +24,7 @@ void UTankTrack::DriveTrack(float CurrentThrottle)
 	auto Wheels = GetWheels(); //the function defined in the header
 	auto ForcePerWheel = ForceApplied / Wheels.Num(); //Wheels.Num is the count of wheels in the array of function GetWheels()
 
-	for (ASprungWheel * Wheel : Wheels) //for each UStaticMeshComponent * Wheel, add a driving force as calcd by ForcePerWheel
+	for (ASprungWheel * Wheel : Wheels) //for each ASprungWheel * Wheel, add a driving force as calcd by ForcePerWheel
 	{
 		Wheel->AddDrivingForce(ForcePerWheel);
 	}

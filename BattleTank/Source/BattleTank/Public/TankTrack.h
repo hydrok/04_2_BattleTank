@@ -23,7 +23,7 @@ public:
 
 	//this is max force PER TRACK in Newtons.
 	UPROPERTY(EditDefaultsOnly)
-	float TrackMaxDrivingForce = 20000000; 
+	float TrackMaxDrivingForce = 40000000; 
 
 	UTankTrack();
 

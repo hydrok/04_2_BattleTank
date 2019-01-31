@@ -26,6 +26,7 @@ void ATankPlayerController::BeginPlay() //virtual and void are removed here beca
 {
 	Super::BeginPlay(); //call default behaviour before anything else.
 
+	if (!GetPawn()) { return; }
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure(AimingComponent))
 	{
